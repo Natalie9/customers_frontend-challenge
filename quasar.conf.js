@@ -76,6 +76,16 @@ module.exports = function (/* ctx */) {
     devServer: {
       https: false,
       port: 8080,
+      proxy: {
+        // proxy all requests starting with /api to jsonplaceholder
+        '/api': {
+          target: 'https://jsm-challenges.s3.amazonaws.com/',
+          changeOrigin: true,
+          pathRewrite: {
+            '^/api': ''
+          }
+        }
+      },
       open: true // opens browser window automatically
     },
 
