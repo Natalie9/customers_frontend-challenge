@@ -1,5 +1,5 @@
 <template>
-  <q-footer class="column items-center  q-gutter-y-md q-py-md">
+  <div class="column items-center  q-gutter-y-md q-py-md bg-blue-grey-8">
     <img
       alt="Quasar logo"
       src="~assets/logo.svg"
@@ -11,7 +11,7 @@
       <q-icon name="facebook" size="md"></q-icon>
       <q-icon name="instagram" size="md"></q-icon>
     </section>
-  </q-footer>
+  </div>
 </template>
 
 <script>
