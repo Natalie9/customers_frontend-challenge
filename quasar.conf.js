@@ -79,7 +79,7 @@ module.exports = function (/* ctx */) {
       proxy: {
         // proxy all requests starting with /api to jsonplaceholder
         '/api': {
-          target: 'https://jsm-challenges.s3.amazonaws.com/',
+          target: 'http://localhost:3000/api',
           changeOrigin: true,
           pathRewrite: {
             '^/api': ''

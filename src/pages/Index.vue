@@ -15,7 +15,7 @@ import Filters from 'components/Filters'
 import ListCards from 'components/ListCards'
 import TopBar from 'components/TopBar'
 
-import { findRegionByLocation, normalizeString } from 'src/utils'
+import { normalizeString } from 'src/utils'
 import axios from 'axios'
 
 export default {
@@ -70,23 +70,15 @@ export default {
     },
 
     async getCustomers () {
-      axios.get('api/frontend-challenge.json').then(response => {
-        this.customersOriginal = response.data.results
-        this.addRegionInCustomers(this.customersOriginal)
+      axios.get('/api/customers').then(response => {
+        let {
+          data,
+          total
+        } = response.data
+        this.customersOriginal = data
+        this.customers = data
+        console.log({ total })
       }).catch(er => console.log(er))
-    },
-
-    addRegionInCustomers (customers) {
-      customers.map(customer => {
-        const latitude = customer.location.coordinates.latitude
-        const longitude = customer.location.coordinates.longitude
-        let region = findRegionByLocation({
-          latitude,
-          longitude
-        })
-        customer.region = region
-      })
-      this.customers = customers
     }
   },
   created () {

@@ -1,4 +1,4 @@
-export function findRegionByLocation ({
+module.exports = function findRegionByLocation ({
   latitude,
   longitude
 }) {

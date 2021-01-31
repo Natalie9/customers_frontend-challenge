@@ -1,6 +1,7 @@
-import { findRegionByLocation } from './findRegionByLocation'
-import { normalizeString } from 'src/utils/normalizeString'
+const findRegionByLocation = require('./findRegionByLocation')
+const normalizeString = require('./normalizeString')
 
-export {
-  findRegionByLocation, normalizeString
+module.exports = {
+  findRegionByLocation,
+  normalizeString
 }
