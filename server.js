@@ -19,38 +19,50 @@ const fetchDataFromApi = async () => {
     const resp = await axios.get('https://jsm-challenges.s3.amazonaws.com/frontend-challenge.json').catch(err => {
       console.log(err)
     })
-    dataFromServer = resp.data.results.map((it, index) => ({ id: index, ...it }))
-    dataFromServer.map(customer => {
-      const latitude = customer.location.coordinates.latitude
-      const longitude = customer.location.coordinates.longitude
-      let region = findRegionByLocation({
-        latitude,
-        longitude
+
+    dataFromServer = resp.data.results
+      .map((customer, index) => {
+        customer.id = index
+
+        const latitude = customer.location.coordinates.latitude
+        const longitude = customer.location.coordinates.longitude
+
+        let region = findRegionByLocation({
+          latitude,
+          longitude
+        })
+        customer.region = region
+
+        return customer
       })
-      customer.region = region
-    })
   }
 }
 
 app.get('/api/customers', async (req, res) => {
-  const {
-    limit,
-    page
-  } = req.query
   await fetchDataFromApi()
+
+  const limit = req.query.limit || dataFromServer.length
+  const total = dataFromServer.length
+  const page = req.query.offset || 1
+
+  const offset = (page - 1) * limit
+  dataFromServer = dataFromServer.splice(offset, limit)
+
   res.send({
     data: dataFromServer,
-    total: dataFromServer.length
+    total
   })
 })
 
 app.get('/api/customers/:id', async (req, res) => {
   await fetchDataFromApi()
-  const id = Number(req.params.id)
-  // validar id
-
-  const customer = dataFromServer.find(ct => ct.id === id)
-  res.send(customer)
+  try {
+    const id = Number(req.params.id)
+    const customer = dataFromServer.find(ct => ct.id === id)
+    res.send(customer)
+  } catch (e) {
+    res.send(e)
+  }
 })
 
 const PORT = process.env.PORT || 3000
