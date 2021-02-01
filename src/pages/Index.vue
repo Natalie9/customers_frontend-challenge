@@ -1,12 +1,15 @@
 <template>
-  <q-page class="row">
+  <q-page class="row q-py-md">
     <TopBar @textSearch="changeNameSearch"></TopBar>
-    <div class="col-2 bg-grey-2 q-mx-md">
+
+    <div class="col-2 bg-amber-1 q-mx-md">
+
       <Filters @updateFilters="changeRegion"></Filters>
     </div>
-    <div class="col bg-grey-2 q-mx-md">
+    <div class="col bg-amber-1 q-mx-md">
       <ListCards :customers="customers"></ListCards>
     </div>
+
   </q-page>
 </template>
 
@@ -14,7 +17,7 @@
 import Filters from 'components/Filters'
 import ListCards from 'components/ListCards'
 import TopBar from 'components/TopBar'
-
+import { QSpinnerFacebook } from 'quasar'
 import { normalizeString } from 'src/utils'
 import axios from 'axios'
 
@@ -30,7 +33,8 @@ export default {
       customers: [],
       customersOriginal: [],
       regionSelected: [],
-      nameSearch: ''
+      nameSearch: '',
+      spinner: true
     }
   },
   methods: {
@@ -70,6 +74,12 @@ export default {
     },
 
     async getCustomers () {
+      this.$q.loading.show({
+        spinner: QSpinnerFacebook,
+        spinnerColor: 'yellow',
+        spinnerSize: 140,
+        backgroundColor: 'black'
+      })
       axios.get('/api/customers').then(response => {
         let {
           data,
@@ -77,7 +87,13 @@ export default {
         } = response.data
         this.customersOriginal = data
         this.customers = data
-        console.log({ total })
+        console.log({
+          data,
+          total
+        })
+        setTimeout(() => {
+          this.$q.loading.hide()
+        }, 900)
       }).catch(er => console.log(er))
     }
   },

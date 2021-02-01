@@ -1,37 +1,29 @@
 <template>
-  <div class="">
-    <q-card class="column flex q-pt-sm  q-ma-sm bg-grey-2 cardCustomer" flat @click="toPageCustomer">
+  <div>
+    <!--    @todo ajustar tamanho padrao para todos-->
+    <div class="card_customer" @click="toPageCustomer">
 
-      <q-img
-        :src="customer.picture.large"
-        basic
-        style="width: 70%"
-        class="self-center"
-      >
+      <img :src="customer.picture.large" class="photo"/>
 
-        <div class="absolute-bottom">
-          {{ customer.name.fullName }}
-        </div>
-
-      </q-img>
-
-      <q-card-section class="text-center items-baseline">
-        <span class="text-weight-bolder">
-          {{ customer.name.fullName }}
+      <div class="title">
+        <strong> {{ customer.name.fullName }} </strong>
+        <span class="cep">
+         {{ customer.cell }}
         </span>
-        <div class="desktop-only">
-          {{ customer.location.address }}
-        </div>
+      </div>
+      <section class="text-center items-baseline infos">
         <div>
-          {{ customer.location.fullAddress }}
+          {{ cityStateCustomer }}
         </div>
-      </q-card-section>
-    </q-card>
+      </section>
+    </div>
 
   </div>
 </template>
 
 <script>
+import { toUpperCaseFirstLetters } from 'src/utils'
+
 export default {
   name: 'CardCustomer',
   props: {
@@ -47,20 +39,54 @@ export default {
       })
     }
   },
-  computed: {}
+  computed: {
+    cityStateCustomer () {
+      const city = toUpperCaseFirstLetters(this.customer.location.city)
+      const state = toUpperCaseFirstLetters(this.customer.location.state)
+      return `${city} - ${state}`
+    }
+  }
 }
 </script>
 
 <style scoped>
-@media (max-width: 500px) {
-  .cardCustomer {
-    min-height: 34vh;
-  }
+.card_customer {
+  display: grid;
+  grid-template-areas:
+  "photo photo"
+  "title title"
+  "infos infos";
+  border-radius: 3px;
+  background: rgba(255,255,255,0.50);
+  box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.1);
+  margin: 16px 8px;
+  justify-items: center;
+  height: calc(35vh + 8px);
+  width: 15vw;
 }
 
-@media (min-height: 1400px) {
-  .cardCustomer {
-    min-height: 40vh;
-  }
+.card_customer .photo {
+  grid-area: photo;
+  width: 85%;
+  border-radius: 5px;
+  margin: 4px;
+  border: 1px solid #e7e7e7;
 }
+
+.card_customer .title {
+  grid-area: title;
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+}
+
+.card_customer .title .cep {
+  display: flex;
+  align-self: flex-end;
+}
+
+.card_customer .infos {
+  grid-area: infos;
+}
+
 </style>

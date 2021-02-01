@@ -1,5 +1,5 @@
 <template>
-  <div class="column items-center  q-gutter-y-md q-py-md bg-blue-grey-8">
+  <div class="column items-center  q-gutter-y-md q-py-md bg-amber-3">
     <img
       alt="Quasar logo"
       src="~assets/logo.svg"
