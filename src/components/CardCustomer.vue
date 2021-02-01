@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <q-card class="column flex q-pt-sm  q-ma-sm bg-grey-2 cardCustomer" flat>
+    <q-card class="column flex q-pt-sm  q-ma-sm bg-grey-2 cardCustomer" flat @click="toPageCustomer">
 
       <q-img
         :src="customer.picture.large"
@@ -10,20 +10,20 @@
       >
 
         <div class="absolute-bottom">
-          {{ fullNameCustomer }}
+          {{ customer.name.fullName }}
         </div>
 
       </q-img>
 
       <q-card-section class="text-center items-baseline">
         <span class="text-weight-bolder">
-          {{ fullNameCustomer }}
+          {{ customer.name.fullName }}
         </span>
         <div class="desktop-only">
-          {{ streetCustomer }}
+          {{ customer.location.address }}
         </div>
         <div>
-          {{ cityStatePostcodeCustomer }}
+          {{ customer.location.fullAddress }}
         </div>
       </q-card-section>
     </q-card>
@@ -40,31 +40,14 @@ export default {
     }
   },
   methods: {
-    toUpperCaseFirstLetters (phrase) {
-      return phrase.split(' ').map((word) => {
-        return word.charAt(0).toUpperCase() + word.slice(1)
-      }).join(' ')
+    toPageCustomer () {
+      this.$router.push({
+        name: 'CustomerPage',
+        params: { id: this.customer.id }
+      })
     }
   },
-  computed: {
-    fullNameCustomer () {
-      const first = this.toUpperCaseFirstLetters(this.customer.name.first)
-      const last = this.toUpperCaseFirstLetters(this.customer.name.last)
-      return (`${first} ${last}`)
-    },
-    streetCustomer () {
-      const address = this.customer.location.street.split(' ')
-      const number = address[0]
-      const street = this.toUpperCaseFirstLetters(address.slice(1, -1).join(' '))
-      return `${street}, ${number}`
-    },
-    cityStatePostcodeCustomer () {
-      const city = this.toUpperCaseFirstLetters(this.customer.location.city)
-      const state = this.toUpperCaseFirstLetters(this.customer.location.state)
-      const cep = this.customer.location.postcode
-      return `${city} ${state} - CEP ${cep}`
-    }
-  }
+  computed: {}
 }
 </script>
 
