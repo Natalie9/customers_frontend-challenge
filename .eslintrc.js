@@ -105,6 +105,7 @@ module.exports = {
     'prefer-promise-reject-errors': 'off',
     'prefer-const': 'off',
     'no-trailing-spaces': 'off',
+    'no-multiple-empty-lines': 'off',
 
     // allow debugger during development only
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'

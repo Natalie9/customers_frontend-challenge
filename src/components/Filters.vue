@@ -17,17 +17,17 @@ export default {
       filters: [
         {
           label: 'Especial',
-          value: 'especial',
+          value: 'Especial',
           color: 'grey'
         },
         {
           label: 'Normal',
-          value: 'normal',
+          value: 'Normal',
           color: 'grey'
         },
         {
           label: 'Trabalhoso',
-          value: 'trabalhoso',
+          value: 'Trabalhoso',
           color: 'grey'
         }
       ],

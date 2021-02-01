@@ -82,7 +82,7 @@ app.get('/api/customers/:id', async (req, res) => {
   try {
     const id = Number(req.params.id)
     const customer = dataFromServer.find(ct => ct.id === id)
-    res.send({ data: customer })
+    res.send(customer)
   } catch (e) {
     res.send(e)
   }

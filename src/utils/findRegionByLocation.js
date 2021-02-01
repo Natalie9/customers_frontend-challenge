@@ -23,18 +23,18 @@ module.exports = function findRegionByLocation ({
 
   if (normal.minlon <= longitude && normal.maxlon >= longitude) {
     if (normal.minlat <= latitude && normal.maxlat >= latitude) {
-      return 'normal'
+      return 'Normal'
     }
   }
   if (special2.minlon <= longitude && special2.maxlon >= longitude) {
     if (special2.minlat <= latitude && special2.maxlat >= latitude) {
-      return 'especial'
+      return 'Especial'
     }
   }
   if (special1.minlon <= longitude && special1.maxlon >= longitude) {
     if (special1.minlat <= latitude && special1.maxlat >= latitude) {
-      return 'especial'
+      return 'Especial'
     }
   }
-  return 'trabalhoso'
+  return 'Trabalhoso'
 }
