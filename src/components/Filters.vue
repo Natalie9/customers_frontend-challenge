@@ -1,7 +1,7 @@
 <template>
-  <q-page>
-    <strong class="text-h6 q-ma-md"> Filtrar por usuários: </strong>
-    <q-option-group class="q-ma-md"
+  <q-page class="filters">
+    <strong class="filters__title"> Filtrar por usuários: </strong>
+    <q-option-group class="filters__options"
       :options="filters"
       type="checkbox"
       v-model="group"
@@ -42,6 +42,19 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss">
+.filters{
+  display: flex;
+  flex-direction: column;
 
+  &__title{
+    margin: 8px;
+  }
+
+  &__options{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(auto, 30vw));
+    margin-left: 4px;
+   }
+}
 </style>
