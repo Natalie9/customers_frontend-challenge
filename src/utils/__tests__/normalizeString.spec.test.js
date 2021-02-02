@@ -1,4 +1,4 @@
-import { normalizeString } from './normalizeString'
+import { normalizeString } from '../normalizeString'
 
 describe('Should normalize string', () => {
   it('Remove accents', () => {

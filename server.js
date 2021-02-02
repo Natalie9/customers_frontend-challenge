@@ -1,6 +1,8 @@
 const {
   findRegionByLocation,
-  toUpperCaseFirstLetters
+  getFullName,
+  orderByName,
+  filter
 } = require('./src/utils/')
 
 const express = require('express')
@@ -36,43 +38,28 @@ const fetchDataFromApi = async () => {
         })
         customer.region = region
         customer.name.fullName = getFullName(customer)
-        customer.location.address = getStreetNumber(customer)
-        customer.location.fullAddress = getFullAddress(customer)
+
         return customer
       })
+    orderByName(dataFromServer)
   }
-}
-
-const getFullName = function (customer) {
-  const first = toUpperCaseFirstLetters(customer.name.first)
-  const last = toUpperCaseFirstLetters(customer.name.last)
-  return (`${first} ${last}`)
-}
-const getStreetNumber = function (customer) {
-  const address = customer.location.street.split(' ')
-  const number = address[0]
-  const street = toUpperCaseFirstLetters(address.slice(1, -1).join(' '))
-  return `${street}, ${number}`
-}
-const getFullAddress = function (customer) {
-  const city = toUpperCaseFirstLetters(customer.location.city)
-  const state = toUpperCaseFirstLetters(customer.location.state)
-  const cep = customer.location.postcode
-  return `${city} ${state} - CEP ${cep}`
 }
 
 app.get('/api/customers', async (req, res) => {
   await fetchDataFromApi()
 
-  const limit = req.query.limit || dataFromServer.length
-  const total = dataFromServer.length
-  const page = req.query.offset || 1
+  let data = [...dataFromServer]
+
+  data = filter(JSON.parse(req.query.filters), data)
+  const limit = req.query.limit || data.length
+  const total = data.length
+  const page = req.query.page || 1
 
   const offset = (page - 1) * limit
-  dataFromServer = dataFromServer.splice(offset, limit)
 
+  data = [...data.splice(offset, limit)]
   res.send({
-    data: dataFromServer,
+    data,
     total
   })
 })
