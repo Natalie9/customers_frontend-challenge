@@ -1,14 +1,15 @@
 <template>
-  <q-page class="row q-py-md">
+  <q-page class="index">
     <TopBar @textSearch="changeNameSearch"></TopBar>
+    <section class="index__content">
+      <div class="index__filters">
+        <Filters @updateFilters="changeRegion"></Filters>
+      </div>
+      <div>
+        <ListCards :customers="customers" :page="page" @changePage="changePage"></ListCards>
+      </div>
+    </section>
 
-    <div class="col-2 bg-amber-1 q-mx-md">
-
-      <Filters @updateFilters="changeRegion"></Filters>
-    </div>
-    <div class="col bg-amber-1 q-mx-md">
-      <ListCards :customers="customers"></ListCards>
-    </div>
 
   </q-page>
 </template>
@@ -30,6 +31,12 @@ export default {
   },
   data () {
     return {
+      page: {
+        current: 1,
+        min: 1,
+        max: 1,
+        limit: 24
+      },
       customers: [],
       customersOriginal: [],
       regionSelected: [],
@@ -38,6 +45,10 @@ export default {
     }
   },
   methods: {
+    changePage (current) {
+      this.page.current = current
+      this.update()
+    },
     changeRegion (regionSelected) {
       this.regionSelected = regionSelected
     },
@@ -45,10 +56,11 @@ export default {
       this.nameSearch = nameSearch
     },
     updateFilters (regionSelected, text) {
-      let customersList = this.customersOriginal
-      customersList = this.filterByRegion(regionSelected, customersList)
-      customersList = this.searchByCustomerName(text, customersList)
-      this.customers = customersList
+      this.getCustomers()
+      // let customersList = this.customersOriginal
+      // customersList = this.filterByRegion(regionSelected, customersList)
+      // customersList = this.filters(text, customersList)
+      // this.customers = customersList
     },
 
     filterByRegion (regionSelected, customers) {
@@ -61,7 +73,7 @@ export default {
       }
     },
 
-    searchByCustomerName (text, customers) {
+    filters (text, customers) {
       if (text.length) {
         return customers.filter(ct => {
           let name = normalizeString(ct.name.first + ' ' + ct.name.last)
@@ -80,21 +92,32 @@ export default {
         spinnerSize: 140,
         backgroundColor: 'black'
       })
-      axios.get('/api/customers').then(response => {
+      axios.get('/api/customers', {
+        params: {
+          limit: this.page.limit,
+          page: this.page.current,
+          filters: {
+            region: this.regionSelected,
+            name: this.nameSearch
+          }
+        }
+      }).then(response => {
         let {
           data,
           total
         } = response.data
         this.customersOriginal = data
         this.customers = data
-        console.log({
-          data,
-          total
-        })
+        this.page.max = Math.ceil(total / this.page.limit)
+
         setTimeout(() => {
           this.$q.loading.hide()
         }, 900)
       }).catch(er => console.log(er))
+    },
+    update () {
+      this.getCustomers()
+      this.updateFilters()
     }
   },
   created () {
@@ -110,3 +133,25 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+.index {
+  background: #ffc107;
+
+  &__content {
+    display: grid;
+    grid-column-gap: 16px;
+    grid-row-gap: 16px;
+  }
+
+  @media (min-width: 500px) {
+    &__content {
+      grid-template-columns: minmax(300px, auto) 1fr auto;
+    }
+  }
+
+  &__filters{
+    max-height: 15vh;
+  }
+}
+
+</style>
