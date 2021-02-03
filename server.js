@@ -57,7 +57,9 @@ app.get('/api/customers', async (req, res) => {
 
   const offset = (page - 1) * limit
 
-  data = [...data.splice(offset, limit)]
+  if (total > limit) {
+    data = [...data.splice(offset, limit)]
+  }
   res.send({
     data,
     total
