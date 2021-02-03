@@ -1,4 +1,4 @@
-module.exports = function findRegionByLocation ({
+const findRegionByLocation = function ({
   latitude,
   longitude
 }) {
@@ -38,3 +38,4 @@ module.exports = function findRegionByLocation ({
   }
   return 'Trabalhoso'
 }
+module.exports = { findRegionByLocation }
