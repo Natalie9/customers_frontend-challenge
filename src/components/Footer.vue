@@ -8,8 +8,8 @@
     <strong class="text-h6"> Juntos Somos Mais Fidelização S.A</strong>
     <span> Siga-nos em nossas redes sociais: </span>
     <section>
-      <q-icon name="facebook" size="md"></q-icon>
-      <q-icon name="instagram" size="md"></q-icon>
+      <q-icon name="fab fa-facebook" size="md" class="q-mx-md"/>
+      <q-icon name="fab fa-instagram" size="md"></q-icon>
     </section>
   </footer>
 </template>
@@ -32,7 +32,8 @@ export default {
   justify-items: center;
   align-items: center;
 }
-.footer > * + *{
+
+.footer > * + * {
   margin: var(--space-xxs);
   padding: var(--space-xxs);
 }

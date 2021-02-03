@@ -134,16 +134,16 @@ export default {
 
   &__content {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
   }
 
   &__list {
     width: 100%;
   }
 
-  @media (max-width: 500px) {
+  @media (min-width: 550px) {
     &__content {
-      flex-direction: column;
+      flex-direction: row;
     }
   }
 

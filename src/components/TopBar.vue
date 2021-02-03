@@ -1,13 +1,14 @@
 <template>
   <q-header>
-    <q-toolbar class="justify-between q-py-md bg-amber-4">
+    <q-toolbar class="topbar">
       <img
         alt="Quasar logo"
         src="~assets/logo.svg"
-        class="logo q-ma-md"
+        class="topbar__logo" id="logo"
       >
 
-      <q-input color="teal" rounded  filled v-model="text" placeholder="Pesquisar" class="full-width" debounce="600" @input="$emit('textSearch', text)">
+      <q-input bg-color="white" rounded filled v-model="text" placeholder="Pesquisar" class="topbar__search"
+               debounce="600" @input="$emit('textSearch', text)">
         <template v-slot:prepend>
           <q-icon name="search"/>
         </template>
@@ -28,8 +29,19 @@ export default {
 }
 </script>
 
-<style scoped>
-.logo {
-  width: 8em;
+<style scoped lang="scss">
+.topbar {
+  background: var(--yellow);
+  padding: var(--space-sm);
+  display: flex;
+  justify-content: space-between;
+
+  &__logo {
+    width: 6rem;
+  }
+
+  &__search {
+    width: calc(100% - 8rem);
+  }
 }
 </style>
