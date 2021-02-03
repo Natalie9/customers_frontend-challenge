@@ -5,12 +5,10 @@
       <div class="index__filters">
         <Filters @updateFilters="changeRegion"></Filters>
       </div>
-      <div>
+      <div class="index__list">
         <ListCards :customers="customers" :page="page" @changePage="changePage"></ListCards>
       </div>
     </section>
-
-
   </q-page>
 </template>
 
@@ -35,19 +33,18 @@ export default {
         current: 1,
         min: 1,
         max: 1,
-        limit: 24
+        limit: 10
       },
       customers: [],
-      customersOriginal: [],
       regionSelected: [],
-      nameSearch: '',
-      spinner: true
+      nameSearch: ''
     }
   },
   methods: {
     changePage (current) {
       this.page.current = current
       this.update()
+      window.scrollTo(0, 0)
     },
     changeRegion (regionSelected) {
       this.regionSelected = regionSelected
@@ -55,22 +52,8 @@ export default {
     changeNameSearch (nameSearch) {
       this.nameSearch = nameSearch
     },
-    updateFilters (regionSelected, text) {
+    updateFilters () {
       this.getCustomers()
-      // let customersList = this.customersOriginal
-      // customersList = this.filterByRegion(regionSelected, customersList)
-      // customersList = this.filters(text, customersList)
-      // this.customers = customersList
-    },
-
-    filterByRegion (regionSelected, customers) {
-      if (regionSelected.length) {
-        return customers.filter(ct => {
-          return regionSelected.includes(ct.region)
-        })
-      } else {
-        return customers
-      }
     },
 
     filters (text, customers) {
@@ -92,28 +75,37 @@ export default {
         spinnerSize: 140,
         backgroundColor: 'black'
       })
-      axios.get('/api/customers', {
-        params: {
-          limit: this.page.limit,
-          page: this.page.current,
-          filters: {
-            region: this.regionSelected,
-            name: this.nameSearch
-          }
-        }
-      }).then(response => {
-        let {
-          data,
-          total
-        } = response.data
-        this.customersOriginal = data
-        this.customers = data
-        this.page.max = Math.ceil(total / this.page.limit)
 
+      try {
+        axios.get('/api/customers', {
+          params: {
+            limit: this.page.limit,
+            page: this.page.current,
+            filters: {
+              region: this.regionSelected,
+              name: this.nameSearch
+            }
+          }
+        }).then(response => {
+          let {
+            data,
+            total
+          } = response.data
+          this.customers = data
+          this.page.max = Math.ceil(total / this.page.limit)
+        }).catch(er => console.log(er))
+      } catch (e) {
+        console.log(e)
+        this.$q.notify({
+          message: 'Erro ao consultar dados',
+          color: 'negative',
+          position: 'top'
+        })
+      } finally {
         setTimeout(() => {
           this.$q.loading.hide()
         }, 900)
-      }).catch(er => console.log(er))
+      }
     },
     update () {
       this.getCustomers()
@@ -134,23 +126,31 @@ export default {
 }
 </script>
 <style lang="scss">
+
 .index {
-  background: #ffc107;
+  background: var(--white);
+  font-family: var(--font-family-sans-serif);
+  color: var(--gray-dark);
 
   &__content {
-    display: grid;
-    grid-column-gap: 16px;
-    grid-row-gap: 16px;
+    display: flex;
+    flex-direction: row;
   }
 
-  @media (min-width: 500px) {
+  &__list {
+    width: 100%;
+  }
+
+  @media (max-width: 500px) {
     &__content {
-      grid-template-columns: minmax(300px, auto) 1fr auto;
+      flex-direction: column;
     }
   }
 
-  &__filters{
+  &__filters {
     max-height: 15vh;
+
+
   }
 }
 
