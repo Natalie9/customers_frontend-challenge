@@ -1,17 +1,28 @@
-const normalizeString = require('./normalizeString')
-const searchByCustomerName = (text, customers) => {
-  if (text.length) {
+const { normalizeString } = require('./stringFormatter')
+
+const searchByCustomerName = ({
+  name,
+  customers
+}) => {
+  name = name || ''
+  customers = customers || []
+  if (name.length) {
     return customers.filter(ct => {
-      let name = normalizeString(ct.name.first + ' ' + ct.name.last)
-      text = normalizeString(text)
-      return name.includes(text)
+      let nameCustomer = normalizeString(ct.name.first + ' ' + ct.name.last)
+      name = normalizeString(name)
+      return nameCustomer.includes(name)
     })
   } else {
     return customers
   }
 }
 
-const filterByRegion = (regionSelected, customers) => {
+const filterByRegion = ({
+  regionSelected,
+  customers
+}) => {
+  regionSelected = regionSelected || []
+  customers = customers || []
   if (regionSelected.length) {
     return customers.filter(ct => {
       return regionSelected.includes(ct.region)
@@ -23,10 +34,16 @@ const filterByRegion = (regionSelected, customers) => {
 
 const filter = function (filters, data) {
   if (filters.region.length) {
-    data = filterByRegion(filters.region, data)
+    data = filterByRegion({
+      regionSelected: filters.region,
+      customers: data
+    })
   }
   if (filters.name) {
-    data = searchByCustomerName(filters.name, data)
+    data = searchByCustomerName({
+      name: filters.name,
+      customers: data
+    })
   }
   return data
 }
