@@ -43,23 +43,32 @@ export default {
 </script>
 
 <style lang="scss">
+
 .filters {
+  margin-top: 5%;
   max-height: 15vh;
+  width: 100%;
 
   &__title {
     margin: 8px;
+    font-size: 1.2rem;
   }
 
   &__options {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(auto, 30vw));
-    margin-left: 4px;
+    display: flex;
+    flex-direction: row;
+    margin-left: var(--space-xl);
   }
 
-  @media (min-width: 500px) {
-    .filters {
-      margin: 0 10%;
-    }
+}
+
+@media (min-width: 500px) {
+  .filters__options {
+    flex-direction: column;
+  }
+  .filters {
+    width: 20vw;
+    font-size: 1.1rem;
   }
 }
 </style>
