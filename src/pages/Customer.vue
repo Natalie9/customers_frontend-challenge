@@ -1,74 +1,85 @@
 <template>
-  <q-page class="page-layout bg-yellow-2">
-    <nav class="navbar_customer" @click="goToHome">
-      <img
-        style="display: flex"
-        alt="Quasar logo"
-        src="~assets/logo.svg"
-        class="logo q-ma-md"
-      >
+  <q-page class="page-layout bg-amber">
+
+
+    <nav class="navbar">
+      <q-icon name="keyboard_backspace" class="navbar_icon-back" @click="goToHome"></q-icon>
+      <div class="navbar_logo">
+        <img
+          @click="goToHome"
+          class="navbar_logo_img"
+          alt="Quasar logo"
+          src="~assets/logo.svg"
+        >
+      </div>
+
     </nav>
 
-    <q-page-container class="page-layout container">
-      <section class="header-component_customer">
-        <img class="photo" :src="customer.picture.large"/>
-        <aside class="title">
-          <strong class="name">
-            {{ customer.name.fullName }}
-          </strong>
-          <div class="region">
-            {{ customer.region }}
-          </div>
-        </aside>
-
-      </section>
-
-
-      <section class="content_infos">
-        <div class="details_customer">
-          <!--        <span>-->
-          <!--          <q-icon name="far fa-user" class="text-amber-5 q-mr-sm" size="sm"/>-->
-          <!--        {{ genero }}-->
-          <!--        </span> -->
-
-          <span>
-          <q-icon name="fas fa-gift" class="text-amber-5 q-mr-sm" size="sm"/>
-        {{ customer.dob.age }} anos
-        </span>
-          <span>
-            <q-icon name="far fa-calendar-check" class="text-amber-5 q-mr-sm" size="sm"/>
+    <q-page-container class="customer">
+      <section class="customer_picture">
+        <img class="customer_picture_photo" :src="customer.picture.large"/>
+        <div class="customer_picture_text">
           Cliente há
-        {{ customer.registered.age }} anos
-        </span>
-
-          <span>
-            <q-icon name="email" class="text-amber-5 q-mr-sm" size="sm"/>
-        {{ customer.email }}
-        </span>
-
-        </div>
-        <div class="phones">
-          <div>
-            <q-icon name="fab fa-whatsapp" class=" q-mr-sm" size="sm"/>
-            {{ customer.cell }}
+          <div class="customer_picture_text_years">
+            <span class="customer_picture_text_years_number">
+            {{ customer.registered.age }}
+          </span>
+            <span class="customer_picture_text_years_text">anos</span>
           </div>
-          <div>
-            <q-icon name="call" class=" q-mr-sm" size="sm"/>
-            {{ customer.phone }}
-          </div>
-
         </div>
       </section>
 
-      <section class="content_address">
-        <div>
-          <q-icon name="fas fa-map-marker-alt" class="text-amber-5 q-mr-sm" size="sm"/>
-          {{ customer.location.address }}
+      <section class="customer_title">
+
+        <strong class="customer_title_name">
+          {{ customer.name.fullName }}
+        </strong>
+
+        <div class="customer_title_region">
+          {{ customer.region }}
+        </div>
+
+      </section>
+
+      <section class="customer_info">
+
+        <section class="customer_info_details">
+          <div class="customer_info_details_gender">
+            <!--            @todo search how make outilened-->
+            <q-icon name="person" class="customer_info_details_icon icon"></q-icon>
+            {{ gender }}
+          </div>
+          <div class="customer_info_details_birthday">
+            <q-icon name="card_giftcard" class="customer_info_details_icon icon"></q-icon>
+            {{ birthday }}
+          </div>
+        </section>
+
+        <section class="customer_info_contact">
+          <div class="customer_info_contact_phonenumber">
+            <div class="customer_info_contact_phonenumber_cell">
+              <q-icon name="fab fa-whatsapp" class="customer_info_contact_icon_whatsapp icon"/>
+              {{ customer.cell }}
+            </div>
+            <div class="customer_info_contact_phonenumber_phone">
+              <q-icon name="call" class="customer_info_contact_icon_phone icon"/>
+              {{ customer.phone }}
+            </div>
+          </div>
+
+          <div class="customer_info_contact_email">
+            <q-icon name="email" class="customer_info_contact_icon_email icon"/>
+            {{ customer.email }}
+          </div>
+        </section>
+
+      </section>
+      <section class="customer_address">
+        <div class="customer_address_street">
+          {{ address }}
           CEP: {{ customer.location.postcode }}
         </div>
-        <div>
-          {{ cityStateCustomer }}
-        </div>
+        <div class="customer_address_state">{{ cityStateCustomer }}</div>
       </section>
     </q-page-container>
   </q-page>
@@ -109,8 +120,21 @@ export default {
     }
   },
   computed: {
-    genero () {
+    address () {
+      const address = this.customer.location.street.split(' ')
+      const number = address[0]
+      const street = toUpperCaseFirstLetters(address.slice(1, -1).join(' '))
+      return `${street}, ${number}`
+    },
+    gender () {
       return this.customer.gender === 'female' ? 'Feminino' : 'Masculino'
+    },
+    birthday () {
+      const months = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
+      let data = new Date(this.customer.dob.date)
+      let dateFormated = ((data.getDate() + ' de ' + months[(data.getMonth())] + ', ' + data.getFullYear()))
+      console.log(dateFormated)
+      return dateFormated
     },
     cityStateCustomer () {
       const city = toUpperCaseFirstLetters(this.customer.location.city)
@@ -124,104 +148,139 @@ export default {
 }
 </script>
 
-<style scoped>
-.page-layout .container {
-  font-size: 1.5em;
+<style scoped lang="scss">
+.navbar {
+  display: flex;
+  justify-content: space-evenly;
+  padding: var(--space-sm);
 
-  background: #fff;
-  height: calc(95vh - 30px);
-  margin: 0 auto;
-  width: 80vw;
-  box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
+  &_logo {
+    display: flex;
+    justify-content: center;
+    flex-grow: 3;
 
-  display: grid;
-  grid-template-areas:
-    "photo header"
-    "infos infos"
-    "address address";
+    &_img {
+      width: 30%;
+      max-width: 150px;
+    }
+  }
+  &_icon-back {
+    font-size: 2rem;
+  }
 }
 
-.logo {
-  height: 30px;
-}
-
-.navbar_customer {
+.customer {
+  height: 80vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justfy-content: center;
+  justify-content: space-between;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: 5px;
+  max-width: 90%;
+  margin: 0 auto;
+  background: var(--white);
+  @media (min-width: 550px) {
+    justify-content: space-around;
+    padding: 3% 8%;
+    max-width: 80%;
+  }
+
 }
 
-.header-component_customer {
+.customer_picture {
+  margin-bottom: var(--space-sm);
   display: flex;
   align-items: center;
+
+  &_photo {
+    border-radius: 50%;
+    border: 3px solid var(--yellow);
+  }
+
+  &_text {
+    font-size: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    margin: var(--space-sm);
+
+
+    &_years {
+      font-size: 1rem;
+      margin-left: var(--space-sm);
+      border-bottom: 2px var(--yellow) dotted;
+
+      &_number {
+        font-size: 1.2rem;
+      }
+    }
+  }
+}
+
+.customer_title {
+  font-size: 1.2em;
+
+  &_region {
+    font-size: 1rem;
+    padding: 0 var(--space-xs);
+    width: fit-content;
+    background: var(--yellow-light);
+  }
+}
+
+.customer_info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  flex-grow: 1;
+
+  &_details {
+    &_icon {
+      color: var(--yellow-light);
+      font-size: 1.2rem;
+    }
+  }
+
+  &_contact {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &_icon {
+      color: var(--yellow-light);
+      font-size: 1.2rem;
+    }
+
+    &_phonenumber {
+      display: flex;
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    @media (min-width: 550px) {
+      align-items: flex-start;
+    }
+  }
+
+  @media (min-width: 550px) {
+    margin-top: 5%;
+    flex-direction: row;
+    justify-content: space-between;
+    //align-items: center;
+  }
+}
+
+.icon{
+  color: var(--yellow-light);
+  font-size: 1.2rem;
+}
+
+.customer_address {
+  display: flex;
   width: 100%;
-  flex: auto 0;
-}
-
-.header-component_customer .photo {
-  max-width: 30vw;
-  min-width: 15vw;
-  width: 150px;
-  border-radius: 50%;
-  grid-area: photo;
-  margin-left: 1.8rem;
-  border-bottom: 5px #f59a2d dotted;
-}
-
-.header-component_customer .title {
-  grid-area: header;
-  margin-left: 1.2rem;
-  flex: auto;
-  font-size: 1.5em;
-}
-
-.header-component_customer .title .name {
-  border-bottom: 3px #f59a2d dotted;
-  margin-bottom: 10px;
-}
-
-.header-component_customer .title .region {
-  margin-top: 10px;
-  padding: 2px 10px;
-  background: rgba(255, 198, 46, 0.51);
-  width: fit-content;
-}
-
-.content_infos {
-  min-width: 85%;
-  margin: 0 auto;
-  grid-area: infos;
-  display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
 }
 
-.content_infos .details_customer {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  margin-left: 1.8rem;
-}
-
-
-.content_infos .phones {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  flex: 1;
-  margin-right: 1.8em;
-}
-
-.content_address {
-  grid-area: address;
-  display: flex;
-  align-self: end;
-  padding-bottom: 2rem;
-  align-items: center;
-  justify-self: center;
-  flex-direction: column;
-}
 
 </style>
