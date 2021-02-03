@@ -1,5 +1,5 @@
 <template>
-  <div class="column items-center  q-gutter-y-md q-py-md bg-amber-3">
+  <footer class="footer">
     <img
       alt="Quasar logo"
       src="~assets/logo.svg"
@@ -11,7 +11,7 @@
       <q-icon name="facebook" size="md"></q-icon>
       <q-icon name="instagram" size="md"></q-icon>
     </section>
-  </div>
+  </footer>
 </template>
 
 <script>
@@ -21,7 +21,19 @@ export default {
 </script>
 
 <style scoped>
-.logo{
+.logo {
   width: 10em;
+}
+
+.footer {
+  background: var(--yellow);
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
+}
+.footer > * + *{
+  margin: var(--space-xxs);
+  padding: var(--space-xxs);
 }
 </style>
