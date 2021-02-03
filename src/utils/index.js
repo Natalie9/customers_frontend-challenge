@@ -1,6 +1,10 @@
-const findRegionByLocation = require('./findRegionByLocation')
-const toUpperCaseFirstLetters = require('./toUpperCaseFirstLetters')
-const normalizeString = require('./normalizeString')
+const { findRegionByLocation } = require('./findRegionByLocation')
+
+const {
+  toUpperCaseFirstLetters,
+  normalizeString,
+  getFullName
+} = require('./stringFormatter')
 const {
   searchByCustomerName,
   filterByRegion,
@@ -8,10 +12,8 @@ const {
 } = require('./filters')
 
 const {
-  getFullName,
-  orderByName,
-  compare
-} = require('./customerName')
+  orderByName
+} = require('./order')
 
 module.exports = {
   findRegionByLocation,
@@ -21,6 +23,5 @@ module.exports = {
   filterByRegion,
   filter,
   getFullName,
-  orderByName,
-  compare
+  orderByName
 }

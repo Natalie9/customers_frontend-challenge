@@ -129,7 +129,7 @@ export default {
 
 .index {
   background: var(--white);
-  font-family: var(--font-family-sans-serif);
+  //font-family: var(--font-family-sans-serif);
   color: var(--gray-dark);
 
   &__content {

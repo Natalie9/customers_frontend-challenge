@@ -12,6 +12,7 @@ export default {
 :root {
   --orange: #fd7e14;
   --yellow: #ffc107;
+  --yellow-light: rgba(255, 193, 7, 0.7);
   --green: #28a745;
   --teal: #20c997;
   --cyan: #17a2b8;
@@ -48,11 +49,12 @@ export default {
 }
 
 body {
+  background: var(--yellow);
   --scrollbarBG: linear-gradient(to bottom, rgba(245, 252, 255, 0.33), transparent);
   --thumbBG: linear-gradient(to top, var(--yellow), var(--orange), var(--yellow));
 
   &::-webkit-scrollbar {
-    width: 5px;
+    width: 10px;
     height: 30px;
   }
 
@@ -64,6 +66,10 @@ body {
   &::-webkit-scrollbar-track {
     background: var(--scrollbarBG);
     border-radius: 30px;
+  }
+
+  @media (min-width: 550px) {
+    font-size: 16px;
   }
 }
 </style>

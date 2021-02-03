@@ -1,7 +1,5 @@
 <template>
-  <q-page class="page-layout bg-amber">
-
-
+  <main class="customer-layout">
     <nav class="navbar">
       <q-icon name="keyboard_backspace" class="navbar_icon-back" @click="goToHome"></q-icon>
       <div class="navbar_logo">
@@ -82,7 +80,7 @@
         <div class="customer_address_state">{{ cityStateCustomer }}</div>
       </section>
     </q-page-container>
-  </q-page>
+  </main>
 </template>
 
 <script>
@@ -149,6 +147,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.customer-layout {
+  background: var(--yellow);
+}
+
 .navbar {
   display: flex;
   justify-content: space-evenly;
@@ -160,17 +162,18 @@ export default {
     flex-grow: 3;
 
     &_img {
-      width: 30%;
+      width: 25%;
       max-width: 150px;
     }
   }
+
   &_icon-back {
     font-size: 2rem;
   }
 }
 
 .customer {
-  height: 80vh;
+  height: 75vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -269,7 +272,7 @@ export default {
   }
 }
 
-.icon{
+.icon {
   color: var(--yellow-light);
   font-size: 1.2rem;
 }
@@ -282,5 +285,10 @@ export default {
   align-items: center;
 }
 
+@media (min-width: 550px) {
+  * {
+    font-size: 1.4rem;
+  }
+}
 
 </style>

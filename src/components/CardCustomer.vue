@@ -1,6 +1,8 @@
 <template>
   <div class="card" @click="toPageCustomer">
 
+
+
     <img :src="customer.picture.large" class="card__image"/>
     <div class="card__content">
       <div class="card__title">
@@ -55,8 +57,8 @@ export default {
   max-width: 250px;
   min-width: 200px;
   border-radius: 24px;
-  box-shadow: 0 16px 40px 0 rgb(0 0 0 / 10%);
-  background-color: #fff;
+  box-shadow: -3px 4px 15px 0 rgb(0 0 0 / 10%);
+  background-color: var(--white);
   align-items: center;
   display: flex;
   flex-direction: column;
@@ -70,6 +72,7 @@ export default {
     object-fit: cover;
     width: 80%;
     height: 50%;
+    margin-bottom: 5px;
   }
 
   &__title {
@@ -86,7 +89,7 @@ export default {
   &__text {
     font-size: 1rem;
     line-height: 2.1rem;
-    color: var(--gray-dark);
+    color: var(--gray)
   }
 
 }
