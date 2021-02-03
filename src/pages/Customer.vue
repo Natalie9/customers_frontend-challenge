@@ -13,7 +13,7 @@
 
     </nav>
 
-    <q-page-container class="customer">
+    <q-page-container class="customer"  v-if="!!customer">
       <section class="customer_picture">
         <img class="customer_picture_photo" :src="customer.picture.large"/>
         <div class="customer_picture_text">
@@ -92,7 +92,7 @@ export default {
   name: 'Customer',
   data () {
     return {
-      customer: {}
+      customer: null
     }
   },
   methods: {
@@ -105,7 +105,6 @@ export default {
       })
       const id = this.$route.params.id
       axios.get('/api/customers/' + id).then(response => {
-        console.log(response)
         let data = response.data
         this.customer = data
         setTimeout(() => {
@@ -131,7 +130,6 @@ export default {
       const months = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
       let data = new Date(this.customer.dob.date)
       let dateFormated = ((data.getDate() + ' de ' + months[(data.getMonth())] + ', ' + data.getFullYear()))
-      console.log(dateFormated)
       return dateFormated
     },
     cityStateCustomer () {

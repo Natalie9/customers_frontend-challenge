@@ -1,26 +1,33 @@
 # Customers List (customers_challenge-frontend)
 
-Customer List of Juntos Somos +
+Listagem de clientes da Juntos Somos +
 
-## Install the dependencies
+
+## Rodando o projeto
+
+### Instale as dependencias
 ```bash
 yarn
 ```
 
-### Start the app in development mode (hot-code reloading, error reporting, etc.)
+###Execute
 ```bash
-quasar dev
+yarn start
 ```
 
-### Lint the files
+### Para rodar os testes
 ```bash
-yarn run lint
+yarn test
 ```
 
-### Build the app for production
-```bash
-quasar build
-```
+O projeto irá rodar por padrão em ```localhost:3000```
 
-### Customize the configuration
-See [Configuring quasar.conf.js](https://quasar.dev/quasar-cli/quasar-conf-js).
+
+
+Tecnologias:
+- Quasar Framework
+- Yarn
+- Scss
+- Material Icons
+- Jest
+
