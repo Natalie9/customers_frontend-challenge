@@ -96,4 +96,24 @@ describe('Filtros por região', () => {
     expect(foundCustomers).toEqual(customers)
   })
 })
+describe('Filtro combinado entre regiões e nomes', () => {
+  it('Deve encontrar cliente com nome barbosa e região Normal', () => {
+    let foundCustomers = filter({
+        region: ['Normal'],
+        name: 'barbosa'
+      },
+      customers
+    )
+    expect(foundCustomers).toEqual([
+      {
+        gender: 'female',
+        name: {
+          first: 'alda',
+          last: 'barbosa'
+        },
+        region: 'Normal'
+      }
+    ])
+  })
+})
 
