@@ -24,10 +24,12 @@ O projeto irá rodar por padrão em ```localhost:3000```
 
 
 
-Tecnologias:
+
+### Tecnologias:
 - Quasar Framework
 - Yarn
 - Scss
 - Material Icons
 - Jest
+- Node
 
